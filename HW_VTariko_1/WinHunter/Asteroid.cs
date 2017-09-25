@@ -13,13 +13,14 @@ namespace WinHunter
 
 		private readonly Image[] _images = { WinHunter.Properties.Resources.asteroid_1, WinHunter.Properties.Resources.asteroid_2 };
 
+		private static Random rand = new Random();
+
 		#endregion
 
 		#region Конструктор
 
 		public Asteroid(Point pos, Point dir, Size size) : base(pos, dir, size)
 		{
-			Random rand = new Random();
 			int num = rand.Next(0, 2);
 			image = new Bitmap(_images[num], size);
 		} 
@@ -40,10 +41,9 @@ namespace WinHunter
 			if (pos.X < 0)
 			{
 				pos.X = width + size.Width;
-				Random rand = new Random();
 				int s = (1 + rand.Next(5)) * 10;
-				//int posY = (int)(rand.NextDouble() * height);
-				//pos.Y = posY;
+				int posY = (int)(rand.NextDouble() * height);
+				pos.Y = posY;
 				int num = rand.Next(0, 2);
 				size = new Size(s, s);
 				image = new Bitmap(_images[num], size);

@@ -58,9 +58,9 @@ namespace WinHunter.Area
 			Image background = new Bitmap(WinHunter.Properties.Resources.staticback, Width, Height);
 			Buffer.Graphics.DrawImage(background, 0, 0);
 			DrawSurname();
-			foreach (BaseObject planet in objs)
+			foreach (BaseObject o in objs)
 			{
-				planet.Draw(Buffer);
+				o.Draw(Buffer);
 			}
 			Buffer.Render();
 		}
@@ -134,7 +134,7 @@ namespace WinHunter.Area
 
 		private static void LoadPlanets()
 		{
-			Image[] planetsImages = new[]
+			Image[] planetsImages =
 			{
 				WinHunter.Properties.Resources.planet_1,
 				WinHunter.Properties.Resources.planet_2,
@@ -146,20 +146,20 @@ namespace WinHunter.Area
 				WinHunter.Properties.Resources.planet_8,
 				WinHunter.Properties.Resources.planet_9
 			};
-			BaseObject[] _planets = new BaseObject[9];
+			Planet[] planets = new Planet[9];
 			Random r = new Random();
-			for (int i = 0; i < _planets.Length; i++)
+			for (int i = 0; i < planets.Length; i++)
 			{
 				int speedX = r.Next(-10, 11);
 				int speedY = r.Next(-10, 11);
 				int size = (2 + r.Next(5)) * 10;
 				int posX = (int)(r.NextDouble() * Width);
 				int posY = (int)(r.NextDouble() * Height);
-				_planets[i] = new BaseObject(new Point(posX, posY), new Point(speedX, speedY), new Size(size, size), planetsImages[i % 10]);
+				planets[i] = new Planet(new Point(posX, posY), new Point(speedX, speedY), new Size(size, size), planetsImages[i % 10]);
 			}
 
-			objs = new BaseObject[_planets.Length];
-			_planets.CopyTo(objs, 0);
+			objs = new BaseObject[planets.Length];
+			planets.CopyTo(objs, 0);
 		} 
 
 		#endregion

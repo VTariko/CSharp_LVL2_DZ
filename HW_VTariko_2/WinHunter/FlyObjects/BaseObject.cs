@@ -2,7 +2,7 @@
 
 namespace WinHunter.FlyObjects
 {
-	class BaseObject
+	abstract class BaseObject
 	{
 		#region Поля
 
@@ -21,7 +21,7 @@ namespace WinHunter.FlyObjects
 		/// <param name="pos">Координата объекта</param>
 		/// <param name="dir">Направление движения объекта</param>
 		/// <param name="size">Размер объекта</param>
-		public BaseObject(Point pos, Point dir, Size size) : this(pos, dir, size, WinHunter.Properties.Resources.network)
+		protected BaseObject(Point pos, Point dir, Size size) : this(pos, dir, size, WinHunter.Properties.Resources.network)
 		{
 		}
 
@@ -32,7 +32,7 @@ namespace WinHunter.FlyObjects
 		/// <param name="dir">Направление движения объекта</param>
 		/// <param name="size">Размер объекта</param>
 		/// <param name="image">Изображение объекта</param>
-		public BaseObject(Point pos, Point dir, Size size, Image image)
+		protected BaseObject(Point pos, Point dir, Size size, Image image)
 		{
 			this.pos = pos;
 			this.dir = dir;
@@ -58,15 +58,7 @@ namespace WinHunter.FlyObjects
 		/// </summary>
 		/// <param name="width"></param>
 		/// <param name="height"></param>
-		public virtual void Update(int width, int height)
-		{
-			pos.X += dir.X;
-			pos.Y += dir.Y;
-			if (pos.X < 0 || pos.X > width)
-				dir.X = -dir.X;
-			if (pos.Y < 0 || pos.Y > height)
-				dir.Y = -dir.Y;
-		} 
+		public abstract void Update(int width, int height);
 
 		#endregion
 	}

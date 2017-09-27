@@ -4,7 +4,7 @@ using WinHunter.FlyObjects;
 
 namespace WinHunter.Area
 {
-	class Field
+	abstract class Field
 	{
 		#region Поля
 

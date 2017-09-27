@@ -45,14 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Asteroid.cs" />
-    <Compile Include="BaseObject.cs" />
-    <Compile Include="Field.cs" />
-    <Compile Include="Game.cs" />
+    <Compile Include="FlyObjects\Asteroid.cs" />
+    <Compile Include="FlyObjects\BaseObject.cs" />
+    <Compile Include="Area\Field.cs" />
+    <Compile Include="Area\Game.cs" />
+    <Compile Include="FlyObjects\Bullet.cs" />
+    <Compile Include="FlyObjects\Planet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SplashScreen.cs" />
-    <Compile Include="Star.cs" />
+    <Compile Include="Area\SplashScreen.cs" />
+    <Compile Include="FlyObjects\Star.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -118,6 +120,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\star_white.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bullet20.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

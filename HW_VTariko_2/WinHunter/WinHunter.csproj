@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\GameObjectException.cs" />
     <Compile Include="FlyObjects\Asteroid.cs" />
     <Compile Include="FlyObjects\BaseObject.cs" />
     <Compile Include="Area\Field.cs" />

@@ -11,6 +11,11 @@ namespace WinHunter.Common
 	/// </summary>
 	class GameObjectException: Exception
 	{
-		public GameObjectException(string message) : base(message) { }
+		public GameObjectExceptionType Type { get; }
+
+		public GameObjectException(string message, GameObjectExceptionType type) : base(message)
+		{
+			Type = type;
+		}
 	}
 }

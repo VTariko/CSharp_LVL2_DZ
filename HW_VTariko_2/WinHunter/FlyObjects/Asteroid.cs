@@ -17,11 +17,11 @@ namespace WinHunter.FlyObjects
 		/// <summary>
 		/// Конструктор объекта - Астероид
 		/// </summary>
-		/// <param name="pos"></param>
-		/// <param name="dir"></param>
-		/// <param name="size"></param>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
+		/// <param name="pos">Координата астероида</param>
+		/// <param name="dir">Направление движения астероида</param>
+		/// <param name="size">Размер астероида</param>
+		/// <param name="width">Ширина поля для астероида</param>
+		/// <param name="height">Высота поля для астероида</param>
 		public Asteroid(Point pos, Point dir, Size size, int width, int height) : base(pos, dir, size, width, height)
 		{
 			int num = Rand.Next(0, 2);
@@ -40,19 +40,26 @@ namespace WinHunter.FlyObjects
 			pos.X -= dir.X;
 			if (pos.X < 0)
 			{
-				pos.X = width + size.Width;
-				int s = (1 + Rand.Next(5)) * 10;
-				int posY = (int)(Rand.NextDouble() * height);
-				pos.Y = posY;
-				int num = Rand.Next(0, 2);
-				size = new Size(s, s);
-				image = new Bitmap(_images[num], size);
+				Respawn();	
 			}
 		}
 
+		/// <summary>
+		/// Метод пересоздания астероида - на случай ухода за поле или "поражения" пулей
+		/// </summary>
 		public void Respawn()
 		{
-			
+			// Задаем новые координаты для создаваемого астероида:
+			// Икс - за границей поля
+			// Игрек - Случайное число от нуля но максимальной высоты поля
+			pos.X = width + size.Width;
+			pos.Y = (int)(Rand.NextDouble() * height);
+			// Сгенерируем новый размер дял астероида
+			int s = (1 + Rand.Next(5)) * 10;
+			size = new Size(s, s);
+			// Сгенерируем число для случайного выбора изображения астероида из массива
+			int num = Rand.Next(0, 2);
+			image = new Bitmap(_images[num], size);
 		}
 
 		#endregion

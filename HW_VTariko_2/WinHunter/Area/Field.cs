@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 using WinHunter.FlyObjects;
 
@@ -34,16 +35,18 @@ namespace WinHunter.Area
 
 		#endregion
 
+		#region Методы
 
-		/// <summary>
-		/// Обновление поля
-		/// </summary>
-		public static void Update()
+		protected static void CheckFormSize()
 		{
-			foreach (BaseObject o in objs)
+			if (form.Width > 1000 || form.Height > 1000 || form.Width < 0 || form.Height < 0)
 			{
-				o.Update(SplashScreen.Width, SplashScreen.Height);
+				throw new ArgumentOutOfRangeException(string.Format("{0}", "Недопустимые размеры для формы"));
 			}
 		}
+
+
+		#endregion
+
 	}
 }

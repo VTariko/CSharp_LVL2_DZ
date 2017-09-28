@@ -7,15 +7,17 @@ namespace WinHunter.FlyObjects
 		#region Конструктор
 
 		/// <summary>
-		/// Объект - звезда
+		/// Конструктор объекта - Звезда
 		/// </summary>
 		/// <param name="pos">Координата звезды</param>
 		/// <param name="dir">Направление движения звезды</param>
 		/// <param name="size">Размер звезды</param>
-		public Star(Point pos, Point dir, Size size) : base(pos, dir, size)
+		/// <param name="width">Ширина поля для звезды</param>
+		/// <param name="height">Высота поля для звезды</param>
+		public Star(Point pos, Point dir, Size size, int width, int height) : base(pos, dir, size, width, height)
 		{
 			image = new Bitmap(WinHunter.Properties.Resources.star_white, size);
-		} 
+		}
 
 		#endregion
 
@@ -24,9 +26,7 @@ namespace WinHunter.FlyObjects
 		/// <summary>
 		/// Описание обновления звезды
 		/// </summary>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		public override void Update(int width, int height)
+		public override void Update()
 		{
 			pos.X -= dir.X;
 			if (pos.X < 0)
@@ -34,5 +34,7 @@ namespace WinHunter.FlyObjects
 		} 
 
 		#endregion
+
+		
 	}
 }

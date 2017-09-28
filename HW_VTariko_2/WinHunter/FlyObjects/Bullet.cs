@@ -12,12 +12,14 @@ namespace WinHunter.FlyObjects
 		#region Конструктор
 
 		/// <summary>
-		/// Объект - пуля
+		/// Конструктор объекта - Пуля
 		/// </summary>
-		/// <param name="pos">координаты пули</param>
-		/// <param name="dir">Напраление движения пули</param>
+		/// <param name="pos">Координата пули</param>
+		/// <param name="dir">Направление движения пули</param>
 		/// <param name="size">Размер пули</param>
-		public Bullet(Point pos, Point dir, Size size) : base(pos, dir, size)
+		/// <param name="width">Ширина поля для пули</param>
+		/// <param name="height">Высота поля для пули</param>
+		public Bullet(Point pos, Point dir, Size size, int width, int height) : base(pos, dir, size, width, height)
 		{
 			image = new Bitmap(WinHunter.Properties.Resources.bullet, size);
 		}
@@ -29,13 +31,12 @@ namespace WinHunter.FlyObjects
 		/// <summary>
 		/// Описание обновления движения пули
 		/// </summary>
-		/// <param name="width">Ширины поля </param>
-		/// <param name="height">Высота поля</param>
-		public override void Update(int width, int height)
+		public override void Update()
 		{
 			pos.X += 3;
-		} 
+		}
 
 		#endregion
+
 	}
 }

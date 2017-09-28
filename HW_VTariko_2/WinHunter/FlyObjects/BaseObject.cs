@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using WinHunter.Common;
 
 namespace WinHunter.FlyObjects
 {
@@ -10,6 +11,8 @@ namespace WinHunter.FlyObjects
 		protected Point dir;
 		protected Size size;
 		protected Image image;
+		protected int width;
+		protected int height;
 
 		#endregion
 
@@ -21,7 +24,9 @@ namespace WinHunter.FlyObjects
 		/// <param name="pos">Координата объекта</param>
 		/// <param name="dir">Направление движения объекта</param>
 		/// <param name="size">Размер объекта</param>
-		protected BaseObject(Point pos, Point dir, Size size) : this(pos, dir, size, WinHunter.Properties.Resources.network)
+		/// <param name="width">Ширина поля</param>
+		/// <param name="height">Высота поля</param>
+		protected BaseObject(Point pos, Point dir, Size size, int width, int height) : this(pos, dir, size, WinHunter.Properties.Resources.network, width, height)
 		{
 		}
 
@@ -32,11 +37,19 @@ namespace WinHunter.FlyObjects
 		/// <param name="dir">Направление движения объекта</param>
 		/// <param name="size">Размер объекта</param>
 		/// <param name="image">Изображение объекта</param>
-		protected BaseObject(Point pos, Point dir, Size size, Image image)
+		/// <param name="width">Ширина поля</param>
+		/// <param name="height">Высота поля</param>
+		protected BaseObject(Point pos, Point dir, Size size, Image image, int width, int height)
 		{
+			if (width <0 || height < 0 || pos.X < 0 || pos.Y < 0 || pos.X > width || pos.Y>height || size.Height < 0 || size.Width < 0)
+			{
+				throw new GameObjectException("Попытка некорректного создания объекта!");
+			}
 			this.pos = pos;
 			this.dir = dir;
 			this.size = size;
+			this.width = width;
+			this.height = height;
 			this.image = new Bitmap(image, size);
 		} 
 
@@ -56,9 +69,7 @@ namespace WinHunter.FlyObjects
 		/// <summary>
 		/// Описание движения объекта
 		/// </summary>
-		/// <param name="width"></param>
-		/// <param name="height"></param>
-		public abstract void Update(int width, int height);
+		public abstract void Update();
 
 		#endregion
 	}

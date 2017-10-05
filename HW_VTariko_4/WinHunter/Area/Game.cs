@@ -42,12 +42,12 @@ namespace WinHunter.Area
 		/// <summary>
 		/// Массив существующих звезд
 		/// </summary>
-		private static Star[] _stars;
+		private static List<Star> _stars;
 
 		/// <summary>
 		/// Массив существующих астероидов
 		/// </summary>
-		private static Asteroid[] _asteroids;
+		private static List<Asteroid> _asteroids;
 
 		/// <summary>
 		/// Действующий герой
@@ -68,6 +68,21 @@ namespace WinHunter.Area
 		/// Аптечка
 		/// </summary>
 		private static FirstAid _firstAid;
+
+		/// <summary>
+		/// Номер волны
+		/// </summary>
+		private static int _waveNumber;
+
+		/// <summary>
+		/// Флаг того, что начинается новая волна
+		/// </summary>
+		private static bool _isNewWave;
+
+		/// <summary>
+		/// Количество тиков - для замеров дилтелньости существования надписи новой волны
+		/// </summary>
+		private static int _numberTick;
 
 		#endregion
 
@@ -94,7 +109,9 @@ namespace WinHunter.Area
 			// Связываем буфер в памяти с графическим объектом
 			Buffer = context.Allocate(g, new Rectangle(0, 0, Width, Height));
 
-			// Загружаем объекты на игровое поле
+			// Обновляем номер волны и загружаем объекты на игровое поле
+			_waveNumber = 1;
+			_isNewWave = false;
 			Load();
 
 			// Инициализируем и стартуем таймер для регулярного обновления поля
@@ -158,8 +175,18 @@ namespace WinHunter.Area
 					o.Draw(Buffer);
 				}
 			}
+			foreach (Asteroid asteroid in _asteroids)
+			{
+				if (asteroid.IsActive)
+					asteroid.Draw(Buffer);
+			}
 			Buffer.Graphics.DrawString($"Energy: {_hero.Energy}{Environment.NewLine}Scores: {_hero.Score}", SystemFonts.DefaultFont,
 				Brushes.White, 0, 0);
+			if (_isNewWave)
+			{
+				NewWave();
+				_numberTick++;
+			}
 			Buffer.Render();
 		}
 
@@ -182,6 +209,11 @@ namespace WinHunter.Area
 					o.Update();
 				}
 			}
+			foreach (Asteroid asteroid in _asteroids)
+			{
+				if (asteroid.IsActive)
+					asteroid.Update();
+			}
 			// Проверяем на столкновение героя и аптечку
 			if (_firstAid.Collision(_hero))
 			{
@@ -202,17 +234,17 @@ namespace WinHunter.Area
 			{
 				foreach (Bullet bullet in _bullets)
 				{
-					if (bullet.IsActive && bullet.Collision(asteroid))
+					if (asteroid.IsActive && bullet.IsActive && bullet.Collision(asteroid))
 					{
 						System.Media.SystemSounds.Hand.Play();
 						WriteLog(false, bullet.GetType().Name, asteroid.GetType().Name);
 						_hero.ScoreHigh(asteroid.Power);
-						asteroid.Respawn();
+						asteroid.Destroy();
 						bullet.Destroy();
 						break;
 					}
 				}
-				if (_hero.Collision(asteroid))
+				if (asteroid.IsActive && _hero.Collision(asteroid))
 				{
 					WriteLog(false, asteroid.GetType().Name, _hero.GetType().Name);
 					asteroid.Respawn();
@@ -225,6 +257,12 @@ namespace WinHunter.Area
 					}
 				}
 			}
+			if (_asteroids.All(a => !a.IsActive) && !_isNewWave)
+			{
+				_isNewWave = true;
+				_numberTick = 0;
+				NewWave();
+			}
 		}
 		
 		#endregion
@@ -234,46 +272,13 @@ namespace WinHunter.Area
 		/// </summary>
 		private static void Load()
 		{
-			// Объявляем массивы звезд и астероидов
-			_stars = new Star[100];
-			_asteroids = new Asteroid[15];
-			int posX;
-			int posY;
-			// Создаем звезды
-			for (int i = 0; i < _stars.Length; i++)
-			{
-				int speed = Rand.Next(100, 200);
-				int size = 1 + (int)(0.04 * speed);
-				posX = Rand.Next(1, Width);
-				posY = Rand.Next(1, Height);
-
-				try
-				{
-					_stars[i] = new Star(new Point(posX, posY), new Point(speed, 0), new Size(size, size), Width, Height);
-				}
-				catch (GameObjectException e)
-				{
-					MessageBox.Show(string.Format(ErrorString, e.Message, e.Type));
-					throw;
-				}
-			}
+			// Объявляем звёзд
+			_stars = new List<Star>();
+			_stars = Star.CreateStars();
 			// Создаем астероиды
-			for (int i = 0; i < _asteroids.Length; i++)
-			{
-				int speed = 40;
-				posX = Rand.Next(1, Width);
-				posY = Rand.Next(1, Height);
+			_asteroids = new List<Asteroid>();
+			_asteroids = Asteroid.CreateAsteroidsWave(_waveNumber);
 
-				try
-				{
-					_asteroids[i] = new Asteroid(new Point(posX, posY), new Point(speed, 0), Width, Height);
-				}
-				catch (GameObjectException e)
-				{
-					MessageBox.Show(string.Format(ErrorString, e.Message, e.Type));
-					throw;
-				}
-			}
 			//Инициализируем список пуль на будущее
 			_bullets = new List<Bullet>();
 			//Инициализируем аптечку
@@ -282,8 +287,22 @@ namespace WinHunter.Area
 			// Инициализируем массив объектов и заполянем его звездами, астероидами, а так же аптечкой и пулей
 			objs = new List<BaseObject>();
 			objs.AddRange(_stars);
-			objs.AddRange(_asteroids);
+			//objs.AddRange(_asteroids);
 			objs.Add(_firstAid);
+		}
+
+		private static void NewWave()
+		{
+			if (_numberTick < 20)
+			{
+				Buffer.Graphics.DrawString($"Волна {_waveNumber + 1}", new Font(FontFamily.GenericSansSerif, 60, FontStyle.Underline), Brushes.White,
+					200, 100);
+			}
+			else
+			{
+				_isNewWave = !_isNewWave;
+				_asteroids = Asteroid.CreateAsteroidsWave(++_waveNumber);
+			}
 		}
 
 		/// <summary>

@@ -10,7 +10,6 @@ namespace WinHunter.Area
 	{
 		#region Поля
 
-		protected const string ErrorString = "{0}\r\nТип ошибки: {1}";
 		protected static BufferedGraphicsContext context;
 		protected static List<BaseObject> objs;
 		protected static Timer timer;
@@ -19,6 +18,11 @@ namespace WinHunter.Area
 		#endregion
 
 		#region Свойства
+
+		/// <summary>
+		/// Текст игровой ошибки
+		/// </summary>
+		public static string ErrorString => "{0}\r\nТип ошибки: {1}";
 
 		/// <summary>
 		/// Графический буфер

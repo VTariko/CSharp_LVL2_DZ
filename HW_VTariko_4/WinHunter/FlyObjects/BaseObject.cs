@@ -33,12 +33,12 @@ namespace WinHunter.FlyObjects
 		/// <summary>
 		/// Ширина поля для объекта
 		/// </summary>
-		protected int width;
+		protected static int width;
 
 		/// <summary>
 		/// Высота поля для объекта
 		/// </summary>
-		protected int height;
+		protected static int height;
 
 		#endregion
 
@@ -64,15 +64,15 @@ namespace WinHunter.FlyObjects
 		/// <param name="dir">Направление движения объекта</param>
 		/// <param name="size">Размер объекта</param>
 		/// <param name="image">Изображение объекта</param>
-		/// <param name="width">Ширина поля</param>
-		/// <param name="height">Высота поля</param>
-		protected BaseObject(Point pos, Point dir, Size size, Image image, int width, int height)
+		/// <param name="outWidth">Ширина поля</param>
+		/// <param name="outHeight">Высота поля</param>
+		protected BaseObject(Point pos, Point dir, Size size, Image image, int outWidth, int outHeight)
 		{
-			if (width <= 0 || height <= 0)
+			if (outWidth <= 0 || outHeight <= 0)
 			{
 				throw new GameObjectException("Попытка некорректного создания объекта!", GameObjectExceptionType.SizeField);
 			}
-			if (pos.X < 0 || pos.Y < 0 || pos.X > width || pos.Y > height)
+			if (pos.X < 0 || pos.Y < 0 || pos.X > 2 * outWidth || pos.Y > outHeight)
 			{
 				throw new GameObjectException("Попытка некорректного создания объекта!", GameObjectExceptionType.Position);
 			}
@@ -83,9 +83,9 @@ namespace WinHunter.FlyObjects
 			this.pos = pos;
 			this.dir = dir;
 			this.size = size;
-			this.width = width;
-			this.height = height;
 			this.image = new Bitmap(image, size);
+			width = outWidth;
+			height = outHeight;
 		}
 
 		#endregion

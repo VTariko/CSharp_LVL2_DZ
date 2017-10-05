@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
+using WinHunter.Area;
+using WinHunter.Common;
 
 namespace WinHunter.FlyObjects
 {
@@ -13,12 +17,22 @@ namespace WinHunter.FlyObjects
 		/// <summary>
 		/// Максимально возможный размер астероида
 		/// </summary>
-		private static readonly int MAX_SIZE = 60;
+		private const int MAX_SIZE = 60;
 
 		/// <summary>
 		/// Минимально возможный размер астероида
 		/// </summary>
-		private static readonly int MIN_SIZE = 25;
+		private const int MIN_SIZE = 25;
+
+		/// <summary>
+		/// Стартовый размер волны астероидов
+		/// </summary>
+		private const int WAVE_START_SIZE = 15;
+
+		/// <summary>
+		/// Прирост количества астероидов с каждой волной
+		/// </summary>
+		private const int WAVE_INCREMENT = 3;
 
 		#endregion
 
@@ -29,6 +43,11 @@ namespace WinHunter.FlyObjects
 		/// Можность же и является количеством очков, которые присуждаются за уничтожение данного астероида.
 		/// </summary>
 		public int Power => (size.Width - MIN_SIZE) * 10 / (MAX_SIZE - MIN_SIZE);
+
+		/// <summary>
+		/// Флаг, показывающий, что астероид не сбит
+		/// </summary>
+		public bool IsActive { get; private set; }
 
 		#endregion
 
@@ -47,6 +66,7 @@ namespace WinHunter.FlyObjects
 			size = new Size(s, s);
 			int num = Rand.Next(0, 2);
 			image = new Bitmap(_images[num], size);
+			IsActive = true;
 		} 
 
 		#endregion
@@ -83,6 +103,48 @@ namespace WinHunter.FlyObjects
 			int num = Rand.Next(0, 2);
 			image = new Bitmap(_images[num], size);
 		}
+
+		/// <summary>
+		/// Создание волны астероидов
+		/// </summary>
+		/// <param name="waveNumber">Номер волны</param>
+		/// <returns></returns>
+		public static List<Asteroid> CreateAsteroidsWave(int waveNumber)
+		{
+			List<Asteroid> asteroids = new List<Asteroid>();
+			int numberAsteroids = WAVE_START_SIZE + WAVE_INCREMENT * (waveNumber - 1);
+
+			// Создаем астероиды
+			for (int i = 0; i < numberAsteroids; i++)
+			{
+				int speed = 40;
+				int posX = Rand.Next(width + 1, width + width);
+				int posY = Rand.Next(1, height);
+
+				try
+				{
+					asteroids.Add(new Asteroid(new Point(posX, posY), new Point(speed, 0), width, height));
+				}
+				catch (GameObjectException e)
+				{
+					MessageBox.Show(string.Format(Field.ErrorString, e.Message, e.Type));
+					throw;
+				}
+			}
+
+			return asteroids;
+		}
+
+		/// <summary>
+		/// Метод "унижтожения" астероида
+		/// </summary>
+		public void Destroy()
+		{
+			pos.X = 0;
+			pos.Y = 0;
+			IsActive = false;
+		}
+
 
 		#endregion
 	}

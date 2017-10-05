@@ -24,6 +24,9 @@ namespace WinHunter.FlyObjects
 
 		#region Свойства
 
+		/// <summary>
+		/// Флаг показывающий, что пуля активна
+		/// </summary>
 		public bool IsActive { get; private set; }
 
 		#endregion

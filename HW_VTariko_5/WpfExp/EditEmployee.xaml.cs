@@ -84,7 +84,7 @@ namespace WpfExp
 					Employee emp = new Employee(name, family, int.TryParse(txtAge.Text, out int age) ? age : 18,
 						double.TryParse(txtSalary.Text, out double salary) ? salary : 50);
 					
-					_company.First(c => c.DepartmentName == depSelected).Employees.Add(_employee);
+					_company.First(c => c.DepartmentName == depSelected).Employees.Add(emp);
 				}
 				else
 				{

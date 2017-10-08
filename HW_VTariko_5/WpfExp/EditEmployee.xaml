@@ -1,0 +1,28 @@
+﻿<Window x:Class="WpfExp.EditEmployee"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfExp"
+        mc:Ignorable="d"
+        Title="EditEmployee" Height="400" Width="300">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="90*"/>
+			<RowDefinition Height="10*"/>
+		</Grid.RowDefinitions>
+		<StackPanel Margin="10" Grid.RowSpan="2">
+			<Label Content="_Департамент:" Target="{Binding ElementName=boxDepartments}"/>
+			<ComboBox x:Name="boxDepartments"/>
+			<Label Content="_Имя:" Target="{Binding ElementName=txtFirstName}" />
+			<TextBox x:Name="txtFirstName" MaxLength="40" />
+			<Label Content="_Фамилия:" Target="{Binding ElementName=txtLastName}" />
+			<TextBox x:Name="txtLastName" MaxLength="40" />
+			<Label Content="_Возраст:" Target="{Binding ElementName=txtAge}" />
+			<TextBox x:Name="txtAge" PreviewTextInput="CheckValidOnNumber"/>
+			<Label Content="_Зарплата:" Target="{Binding ElementName=txtSalary}" />
+			<TextBox x:Name="txtSalary" PreviewTextInput="CheckValidOnNumber" />
+		</StackPanel>
+		<Button x:Name="btnOk" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Click="BtnOk_OnClick" >OK</Button>
+	</Grid>
+</Window>

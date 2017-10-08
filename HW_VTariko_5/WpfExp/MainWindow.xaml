@@ -1,0 +1,35 @@
+﻿<Window x:Class="WpfExp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:WpfExp"
+		xmlns:company="clr-namespace:WpfExp.Company"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*"/>
+			<ColumnDefinition Width="1*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="90*"/>
+			<RowDefinition Height="10*"/>
+		</Grid.RowDefinitions>
+		<TreeView Name="treeCompany" Margin="5" Grid.ColumnSpan="2">
+			<TreeView.ItemTemplate>
+				<HierarchicalDataTemplate DataType="{x:Type company:Department}" ItemsSource="{Binding Path=Employees}">
+					<TextBlock Text="{Binding Path=DepartmentName}"/>
+					<HierarchicalDataTemplate.ItemTemplate>
+						<DataTemplate DataType="{x:Type company:Employee}">
+							<TextBlock Text="{Binding Name}" ></TextBlock>
+						</DataTemplate>
+					</HierarchicalDataTemplate.ItemTemplate>
+				</HierarchicalDataTemplate>
+			</TreeView.ItemTemplate>
+		</TreeView>
+		<Button x:Name="btnCreate" Grid.Row="1" Grid.Column="0" Click="BtnCreate_OnClick">Добавить</Button>
+		<Button x:Name="btnEdit" Grid.Row="1" Grid.Column="1" Click="BtnEdit_OnClick">Редактировать</Button>
+	</Grid>
+</Window>

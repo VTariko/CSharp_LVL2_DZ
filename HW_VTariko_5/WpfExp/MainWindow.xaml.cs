@@ -83,14 +83,24 @@ namespace WpfExp
 			treeCompany.ItemsSource = company;
 		}
 
+		/// <summary>
+		/// Обработка нажатия кнопки создания нового персонажа
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void BtnCreate_OnClick(object sender, RoutedEventArgs e)
 		{
 			CreateEditWindow();
 		}
 
-
+		/// <summary>
+		/// Обработка кнопки редактирования
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void BtnEdit_OnClick(object sender, RoutedEventArgs e)
 		{
+			// ЕСли выбран - сотрудник - идем на форму редактирования и передаем его
 			Employee item = treeCompany.SelectedItem as Employee;
 			if (item != null)
 			{
@@ -98,14 +108,19 @@ namespace WpfExp
 			}
 		}
 
-
+		/// <summary>
+		/// Метод вызова нового окна с редактированием/созданием работников
+		/// </summary>
+		/// <param name="employee"></param>
 		private void CreateEditWindow(Employee employee = null)
 		{
+			// Если в метод передан работник - отправляем его в конструктор нового окна
 			EditEmployee window = employee == null
 				? new EditEmployee(company)
 				: new EditEmployee(company, employee);
 			window.Owner = this;
 			window.Show();
+			// текущая форма будет неактивна, пока идет создание/редактирование работника
 			this.IsEnabled = false;
 		}
 	}

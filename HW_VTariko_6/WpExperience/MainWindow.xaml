@@ -14,7 +14,18 @@
 				<Button Name="btnChangeUser" Click="BtnChangeUser_OnClick" Margin="0,5">Изменить</Button>
 				<Button Name="btnDelUser" Click="BtnDelUser_OnClick" Margin="0,5">Удалить</Button>
 			</StackPanel>
-			<ListBox Name="lbUsers" DisplayMemberPath="Name"></ListBox>
+			<ListView Name="lbUsers">
+				<ListView.View>
+					<GridView>
+						<GridView.Columns>
+							<GridViewColumn Header="Имя" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+							<GridViewColumn Header="Возраст" DisplayMemberBinding="{Binding Age}"></GridViewColumn>
+							<GridViewColumn Header="Зарплата" DisplayMemberBinding="{Binding Salary}"></GridViewColumn>
+							<GridViewColumn Header="Департамент" DisplayMemberBinding="{Binding DepartmentName}"></GridViewColumn>
+						</GridView.Columns>
+					</GridView>
+				</ListView.View>
+			</ListView>
 		</DockPanel>
     </Grid>
 </Window>

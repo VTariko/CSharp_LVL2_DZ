@@ -1,0 +1,31 @@
+﻿<Window x:Class="WpfADO.EditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfADO"
+        mc:Ignorable="d"
+        Title="Работник" Height="300" Width="300">
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*"/>
+			<ColumnDefinition Width="1*"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="90*"/>
+			<RowDefinition Height="10*"/>
+		</Grid.RowDefinitions>
+		<StackPanel Margin="10" Grid.RowSpan="2" Grid.ColumnSpan="2">
+			<Label Content="_Департамент:" Target="{Binding ElementName=boxDepartments}"/>
+			<ComboBox x:Name="boxDepartments"/>
+			<Label Content="_Имя:" Target="{Binding ElementName=txtFirstName}" />
+			<TextBox x:Name="txtFirstName" MaxLength="40" />
+			<Label Content="_Фамилия:" Target="{Binding ElementName=txtLastName}" />
+			<TextBox x:Name="txtLastName" MaxLength="40" />
+			<Label Content="_Дата рождения:" Target="{Binding ElementName=txtAge}" />
+			<DatePicker x:Name="dpAge"/>
+		</StackPanel>
+		<Button Grid.Column="0" x:Name="btnOk" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">OK</Button>
+		<Button Grid.Column="1" x:Name="btnCancel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">Отмена</Button>
+	</Grid>
+</Window>

@@ -33,7 +33,7 @@ namespace WinHunter.Area
 			Height = form.Height;
 			// Связываем буфер в памяти с графическим объектом
 			Buffer = context.Allocate(g, new Rectangle(0, 0, Width, Height));
-			// Загузка планет
+			// Загрузка планет
 			LoadPlanets();
 			// Добавление на форму кнопок
 			AddStartButtons();
